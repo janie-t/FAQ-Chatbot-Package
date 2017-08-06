@@ -27,7 +27,7 @@ var accessToken = "297ec2a08f584ea9b1c7c8a870520b29",
     function startRecognition() {
       recognition = new webkitSpeechRecognition();
       recognition.continuous = false;
-          recognition.interimResults = false;
+      recognition.interimResults = false;
       recognition.onstart = function(event) {
         respond(messageRecording);
         updateRec();
@@ -47,6 +47,8 @@ var accessToken = "297ec2a08f584ea9b1c7c8a870520b29",
         stopRecognition();
       };
       recognition.lang = "en-US";
+      recognition.pitch= "2";
+      recognition.volume="0";
       recognition.start();
     }
 
