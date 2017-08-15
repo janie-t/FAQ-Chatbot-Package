@@ -48,6 +48,7 @@ window.onload = function loadContents() {
   console.log(containerDiv);
 }
 
+//adding a practice code line
 
 // Code for accessing speech recognition and api.ai chatbot
 
