@@ -35,8 +35,9 @@ window.onload = function loadContents() {
   responseDiv.setAttribute('id', 'spokenResponse');
   responseDiv.setAttribute('class', 'spoken-response');
   var responseDivText = document.createElement('div');
-  responseDivText.setAttribute('class', 'spoken-response_text');
+  responseDivText.setAttribute('class', 'spoken-response__text');
   responseDiv.appendChild(responseDivText);
+  containerDiv.appendChild(responseDiv);
 
   var googleLink = document.createElement('link');
   googleLink.setAttribute('href', 'https://fonts.googleapis.com/css?family=Titillium+Web:200');
@@ -44,6 +45,7 @@ window.onload = function loadContents() {
   googleLink.setAttribute('type', 'text/css');
   document.body.appendChild(googleLink);
 
+  console.log(containerDiv);
 }
 
 
