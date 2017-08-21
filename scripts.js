@@ -1,54 +1,15 @@
 // Code for accessing the DOM and setting up structure
-window.onload = function loadContents() {
+window.onload = function() {
 
-  var containerDiv = document.createElement('div');
-  var mainHeader = document.createElement('h1');
-  var mainHeaderText = document.createTextNode('Frequently Asked Questions');
-  containerDiv.setAttribute('class', 'container');
-  document.body.appendChild(containerDiv);
-  containerDiv.appendChild(mainHeader);
-  mainHeader.appendChild(mainHeaderText);
+  var mainContentDiv = document.createElement('div');
 
-  var p1 = document.createElement('p');
-  var p1Text = document.createTextNode('You can either type your question and press enter, or click on \'Speak\' to talk to the chatbot.')
-  var p2 = document.createElement('p');
-  var p2Text = document.createTextNode('Speech recognition only works on Chrome, and you will need your microphone turned on.');
-  containerDiv.appendChild(p1);
-  containerDiv.appendChild(p2);
-  p1.appendChild(p1Text);
-  p2.appendChild(p2Text);
+  mainContentDiv.setAttribute('id', 'mainContent');
+  document.body.appendChild(mainContentDiv);
 
-  var inputBox = document.createElement('input');
-  inputBox.setAttribute('id', 'speech');
-  inputBox.setAttribute('type', 'text');
-  containerDiv.appendChild(inputBox);
+  mainContentDiv.innerHTML = '<div class="container"><h1>Frequently Asked Questions</h1><p>You can either type your question and press enter, or click on "Speak" to talk to the chatbot.</p><p>Speech recognition only works on Chrome, and you will need your microphone turned on.</p><input id="speech" type="text"><button id="rec" class="btn">Speak</button><div id="spokenResponse" class="spoken-response"><div class="spoken-response__text"></div></div></div>';
 
-  var speakButton = document.createElement('button');
-  speakButton.setAttribute('id', 'rec');
-  speakButton.setAttribute('class', 'btn');
-  var speakButtonText = document.createTextNode('Speak');
-  speakButton.appendChild(speakButtonText);
-  console.log(speakButton);
-  containerDiv.appendChild(speakButton);
+  console.log(mainContentDiv);
 
-  var responseDiv = document.createElement('div');
-  responseDiv.setAttribute('id', 'spokenResponse');
-  responseDiv.setAttribute('class', 'spoken-response');
-  var responseDivText = document.createElement('div');
-  responseDivText.setAttribute('class', 'spoken-response__text');
-  responseDiv.appendChild(responseDivText);
-  containerDiv.appendChild(responseDiv);
-
-  var googleLink = document.createElement('link');
-  googleLink.setAttribute('href', 'https://fonts.googleapis.com/css?family=Titillium+Web:200');
-  googleLink.setAttribute('rel', 'stylesheet');
-  googleLink.setAttribute('type', 'text/css');
-  document.body.appendChild(googleLink);
-
-  console.log(containerDiv);
-}
-
-//adding a practice code line
 
 // Code for accessing speech recognition and api.ai chatbot
 
@@ -166,5 +127,5 @@ var accessToken = '297ec2a08f584ea9b1c7c8a870520b29',
         msg.lang = 'en-US';
         window.speechSynthesis.speak(msg);
       }
-      $('#spokenResponse').addClass('is-active').find('.spoken-response__text').html(val);
-    }
+      $('#spokenResponse').addClass('is-active').find('.spoken-response__text').html(val);}
+}
