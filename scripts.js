@@ -2,7 +2,6 @@
 window.onload = function() {
 
   var mainContentDiv = document.createElement('div');
-
   mainContentDiv.setAttribute('id', 'mainContent');
   document.body.appendChild(mainContentDiv);
 
@@ -49,7 +48,6 @@ var accessToken = '297ec2a08f584ea9b1c7c8a870520b29',
       };
       recognition.onresult = function(event) {
         recognition.onend = null;
-
         var text = '';
           for (var i = event.resultIndex; i < event.results.length; ++i) {
             text += event.results[i][0].transcript;
