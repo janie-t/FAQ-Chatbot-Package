@@ -1,45 +1,52 @@
-// Code for accessing the DOM and setting up structure
-window.onload = function() {
 
+
+(function ($) {
+  // Declare constants or variable
+  // Code for accessing the DOM and setting up structure
   var mainContentDiv = document.createElement('div');
-
   mainContentDiv.setAttribute('id', 'mainContent');
   document.body.appendChild(mainContentDiv);
 
   mainContentDiv.innerHTML = '<div class="container"><h1>Frequently Asked Questions</h1><p>You can either type your question and press enter, or click on "Speak" to talk to the chatbot.</p><p>Speech recognition only works on Chrome, and you will need your microphone turned on.</p><input id="speech" type="text"><button id="rec" class="btn">Speak</button><div id="spokenResponse" class="spoken-response"><div class="spoken-response__text"></div></div></div>';
 
-  console.log(mainContentDiv);
+  // Code for accessing speech recognition and api.ai chatbot
+  var accessToken = '297ec2a08f584ea9b1c7c8a870520b29',
+  baseUrl = 'https://api.api.ai/v1/',
+  $speechInput,
+  $recBtn,
+  recognition,
+  messageRecording = 'Recording...',
+  messageCouldntHear = 'I couldn\'t hear you, could you say that again?',
+  messageInternalError = 'Oh no, there has been an internal server error',
+  messageSorry = 'I\'m sorry, I don\'t have the answer to that yet.';
 
 
-// Code for accessing speech recognition and api.ai chatbot
 
-var accessToken = '297ec2a08f584ea9b1c7c8a870520b29',
-      baseUrl = 'https://api.api.ai/v1/',
-      $speechInput,
-      $recBtn,
-      recognition,
-      messageRecording = 'Recording...',
-      messageCouldntHear = 'I couldn\'t hear you, could you say that again?',
-      messageInternalError = 'Oh no, there has been an internal server error',
-      messageSorry = 'I\'m sorry, I don\'t have the answer to that yet.';
-    $(document).ready(function() {
+  // Define private functions you'll use later
+  function _private() {
+
+  }
+
+  // Define exportable functions you'll use later
+  function public() {
+    $(document).ready(function () {
       $speechInput = $('#speech');
       $recBtn = $('#rec');
-      $speechInput.keypress(function(event) {
+      $speechInput.keypress(function (event) {
         if (event.which == 13) {
           event.preventDefault();
           send();
         }
       });
-      $recBtn.on('click', function(event) {
+      $recBtn.on('click', function (event) {
         switchRecognition();
       });
-      $('.debug__btn').on('click', function() {
+      $('.debug__btn').on('click', function () {
         $(this).next().toggleClass('is-active');
         return false;
       });
     });
-    function startRecognition() {
+    function startRecognition () {
       recognition = new webkitSpeechRecognition();
       recognition.continuous = false;
       recognition.interimResults = false;
@@ -47,17 +54,16 @@ var accessToken = '297ec2a08f584ea9b1c7c8a870520b29',
         respond(messageRecording);
         updateRec();
       };
-      recognition.onresult = function(event) {
+      recognition.onresult = function (event) {
         recognition.onend = null;
-
         var text = '';
-          for (var i = event.resultIndex; i < event.results.length; ++i) {
-            text += event.results[i][0].transcript;
-          }
-          setInput(text);
+        for (var i = event.resultIndex; i < event.results.length; ++i) {
+          text += event.results[i][0].transcript;
+        }
+        setInput(text);
         stopRecognition();
       };
-      recognition.onend = function() {
+      recognition.onend = function () {
         respond(messageCouldntHear);
         stopRecognition();
       };
@@ -67,28 +73,32 @@ var accessToken = '297ec2a08f584ea9b1c7c8a870520b29',
       recognition.start();
     }
 
-    function stopRecognition() {
+    function stopRecognition () {
       if (recognition) {
         recognition.stop();
         recognition = null;
       }
       updateRec();
     }
-    function switchRecognition() {
+
+    function switchRecognition () {
       if (recognition) {
         stopRecognition();
       } else {
         startRecognition();
       }
     }
-    function setInput(text) {
+
+    function setInput (text) {
       $speechInput.val(text);
       send();
     }
-    function updateRec() {
+
+    function updateRec () {
       $recBtn.text(recognition ? 'Stop' : 'Speak');
     }
-    function send() {
+
+    function send () {
       var text = $speechInput.val();
       $.ajax({
         type: 'POST',
@@ -102,22 +112,25 @@ var accessToken = '297ec2a08f584ea9b1c7c8a870520b29',
         success: function(data) {
           prepareResponse(data);
         },
-        error: function() {
+        error: function () {
           respond(messageInternalError);
         }
       });
     }
+
     function prepareResponse(val) {
       var debugJSON = JSON.stringify(val, undefined, 2),
-        spokenResponse = val.result.speech;
+      spokenResponse = val.result.speech;
       respond(spokenResponse);
       debugRespond(debugJSON);
     }
-    function debugRespond(val) {
+
+    function debugRespond (val) {
       $('#response').text(val);
     }
-    function respond(val) {
-      if (val == '') {
+
+    function respond (val) {
+      if (val === '') {
         val = messageSorry;
       }
       if (val !== messageRecording) {
@@ -127,5 +140,16 @@ var accessToken = '297ec2a08f584ea9b1c7c8a870520b29',
         msg.lang = 'en-US';
         window.speechSynthesis.speak(msg);
       }
-      $('#spokenResponse').addClass('is-active').find('.spoken-response__text').html(val);}
-}
+      $('#spokenResponse').addClass('is-active').find('.spoken-response__text').html(val);
+    }
+  }
+
+  // Export
+  window.public = public;
+
+  // Immediately Invoke (if required)
+  //  public();
+  // OR Invoke through events (if required)
+  //  window.addEventListener('load', public);
+  window.addEventListener('load', public);
+})(window.jQuery);
