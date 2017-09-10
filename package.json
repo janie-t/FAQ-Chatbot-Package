@@ -4,7 +4,7 @@
   "description": "A chatbot using API.ai.  This is a reusable package to integrate into tools and sites where needed.",
   "main": "scripts.js",
   "scripts": {
-    "eslint": ""
+    "eslint": "eslint ./*.js"
   },
   "repository": {
     "type": "git",
